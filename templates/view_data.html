@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Processed Data{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Processed Data</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Campaign ID</th>
+                <th>ギルド名</th>
+                <th>Rank</th>
+                <th>討伐数</th>
+                <th>Date/Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in data %}
+                <tr>
+                    <td>{{ entry.campaign_id }}</td>
+                    <td>{{ entry.name }}</td> <!-- この行を -->
+                    <td>{{ entry.guild_name }}</td> <!-- この行に変更 -->
+                    <td>{{ entry.rank }}</td>
+                    <td>{{ entry.item }}</td>
+                    <td>{{ entry.datetime }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

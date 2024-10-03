@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Campaign Management{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Campaign Management</h1>
+
+    <!-- 新しいキャンペーンの追加フォーム -->
+    <div class="card p-4 mb-4">
+        <h2>Add New Campaign</h2>
+        <form action="/add_campaign" method="post">
+            <div class="form-group">
+                <label for="campaign_id">Campaign ID:</label>
+                <input type="text" class="form-control" name="campaign_id" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Campaign Name:</label>
+                <input type="text" class="form-control" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="total_pages">Total Pages:</label>
+                <input type="number" class="form-control" name="total_pages" required>
+            </div>
+            <div class="form-group">
+                <label for="start_time">Start Time:</label>
+                <input type="datetime-local" class="form-control" name="start_time" required>
+            </div>
+            <div class="form-group">
+                <label for="end_time">End Time:</label>
+                <input type="datetime-local" class="form-control" name="end_time" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Campaign</button>
+        </form>
+    </div>
+
+    <h2>Current Campaigns</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Campaign ID</th>
+                <th>Name</th>
+                <th>Total Pages</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campaign in campaigns %}
+                <tr>
+                    <td>{{ campaign.campaign_id }}</td>
+                    <td>{{ campaign.name }}</td>
+                    <td>{{ campaign.total_pages }}</td>
+                    <td>{{ campaign.start_time }}</td>
+                    <td>{{ campaign.end_time }}</td>
+                    <td>
+                        <a href="/edit_campaign/{{ campaign.id }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="/delete_campaign/{{ campaign.id }}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
