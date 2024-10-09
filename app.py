@@ -197,7 +197,6 @@ def update_campaign(id):
 
     return redirect(url_for('index'))
 
-
     if campaign:
         # データ取得処理を呼び出す
         get_all_pages_and_save(campaign)
@@ -211,16 +210,11 @@ def view_data():
     connection = create_connection()
     cursor = connection.cursor()
     cursor.execute('''
-        SELECT * FROM processed_data
-        ORDER BY datetime DESC''')
-    
-    '''
-    あとで変更するかも
-        SELECT pd.campaign_id, c.name, pd.rank, pd.name as guild_name, pd.item, pd.datetime
+        SELECT c.name,pd.name, pd.rank, pd.name as guild_name, pd.item, pd.datetime
         FROM processed_data pd
         JOIN campaigns c ON pd.campaign_id = c.campaign_id
-        ORDER BY pd.datetime DESC
-    '''
+        ORDER BY pd.datetime ASC
+    ''')
     data = cursor.fetchall()
     connection.close()
 
@@ -230,7 +224,7 @@ def view_data():
 @app.route('/test_campaign')
 def test_campaign():
     campaign_id = "6067"  # 取得したいキャンペーンID
-    total_pages = 10  # ページ数を手動で指定（キャンペーンデータがない場合）
+    total_pages = 20  # ページ数を手動で指定（キャンペーンデータがない場合）
 
     # データ取得処理を呼び出す
     get_all_pages_and_save(campaign_id, total_pages)

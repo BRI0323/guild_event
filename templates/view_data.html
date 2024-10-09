@@ -5,10 +5,13 @@
 {% block content %}
     <h1 class="text-center">Processed Data</h1>
 
-    <table class="table table-striped">
+    <!-- フィルター用の入力フィールド -->
+    <input type="text" id="tableFilter" onkeyup="filterTable()" placeholder="フィルターを入力" class="form-control mb-3">
+
+    <table class="table table-striped" id="dataTable">
         <thead>
             <tr>
-                <th>Campaign ID</th>
+                <th>ギルイベ名</th>
                 <th>ギルド名</th>
                 <th>Rank</th>
                 <th>討伐数</th>
@@ -18,7 +21,7 @@
         <tbody>
             {% for entry in data %}
                 <tr>
-                    <td>{{ entry.campaign_id }}</td>
+                    <!--<td>{{ entry.campaign_id }}</td>-->
                     <td>{{ entry.name }}</td> <!-- この行を -->
                     <td>{{ entry.guild_name }}</td> <!-- この行に変更 -->
                     <td>{{ entry.rank }}</td>
@@ -28,4 +31,33 @@
             {% endfor %}
         </tbody>
     </table>
+    
+    <script>
+        function filterTable() {
+            // フィルターに入力された値を取得
+            var filter = document.getElementById("tableFilter").value.toLowerCase();
+            
+            // テーブルと行を取得
+            var table = document.getElementById("dataTable");
+            var trs = table.getElementsByTagName("tr");
+            
+            // 各行をループしてフィルタリング
+            for (var i = 1; i < trs.length; i++) {  // 0番目の行はヘッダーなのでスキップ
+                var tds = trs[i].getElementsByTagName("td");
+                var rowVisible = false;
+                
+                // 各列（td）をチェック
+                for (var j = 0; j < tds.length; j++) {
+                    var cellValue = tds[j].textContent || tds[j].innerText;
+                    if (cellValue.toLowerCase().indexOf(filter) > -1) {
+                        rowVisible = true;
+                        break;
+                    }
+                }
+    
+                // 行を表示または非表示に設定
+                trs[i].style.display = rowVisible ? "" : "none";
+            }
+        }
+    </script>
 {% endblock %}
